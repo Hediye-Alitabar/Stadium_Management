@@ -15,6 +15,6 @@ class LocaleController extends AbstractController
     {
         $request->getSession()->set('_locale', $locale);
 
-        return $this->redirectToRoute('game_list'); // or any other route
+        return $this->redirectToRoute('game_list'); 
     }
 }
