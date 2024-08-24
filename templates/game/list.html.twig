@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ 'welcome_to_homepage'|trans }}</h1>
+    <p>{{ 'home_page_description'|trans }}</p>
+    <h1>{{ 'game_list'|trans }}</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'home_team'|trans }}</th>
+                <th>{{ 'away_team'|trans }}</th>
+                <th>{{ 'date'|trans }}</th>
+                <th>{{ 'ticket_price'|trans }}</th>
+                <th>{{ 'status'|trans }}</th>
+                <th>{{ 'actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gameWithStatus in gamesWithStatus %}
+                <tr>
+                    <td>{{ gameWithStatus.game.teamHome }}</td>
+                    <td>{{ gameWithStatus.game.teamAway }}</td>
+                    <td>{{ gameWithStatus.game.date|date('Y-m-d H:i') }}</td>
+                    <td>${{ gameWithStatus.game.ticketPrice }}</td>
+                    <td>
+                        {% if gameWithStatus.isFull %}
+                            <span class="badge badge-danger">{{ 'stadium_full'|trans }}</span>
+                        {% else %}
+                            <span class="badge badge-success">{{ 'tickets_available'|trans }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
+                            {% if not gameWithStatus.isFull %}
+                                <a href="{{ path('buy_ticket', { 'id': gameWithStatus.game.id }) }}" class="btn btn-primary">{{ 'buy_ticket'|trans }}</a>
+                            {% endif %}
+                            <a href="{{ path('comment_new', { 'gameId': gameWithStatus.game.id }) }}" class="btn btn-secondary">{{ 'new_comment'|trans }}</a>
+                        {% endif %}
+                        <a href="{{ path('comment_show', { 'gameId': gameWithStatus.game.id }) }}" class="btn btn-info">{{ 'show_comments'|trans }}</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('game_edit', { 'id': gameWithStatus.game.id }) }}" class="btn btn-warning">{{ 'edit'|trans }}</a>
+                            <a href="{{ path('game_delete', { 'id': gameWithStatus.game.id }) }}" class="btn btn-danger">{{ 'delete'|trans }}</a>
+                            <a href="{{ path('game_tickets', { 'id': gameWithStatus.game.id }) }}" class="btn btn-secondary">{{ 'view_tickets'|trans }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('game_add') }}" class="btn btn-success">{{ 'add_game'|trans }}</a>
+    {% endif %}
+{% endblock %}

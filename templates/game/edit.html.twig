@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'edit_game'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h1>{{ 'edit_game'|trans({'%home%': game.teamHome, '%away%': game.teamAway}) }}</h1>
+        </div>
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary">{{ 'save_changes'|trans }}</button>
+            {{ form_end(form) }}
+            <a href="{{ path('game_list') }}" class="btn btn-secondary mt-3">{{ 'back_to_home'|trans }}</a>
+        </div>
+    </div>
+{% endblock %}

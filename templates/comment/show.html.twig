@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'comments'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h1>{{ 'comments'|trans }}</h1>
+        </div>
+        <div class="card-body">
+            {% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('comment_new', { gameId: game.id }) }}" class="btn btn-primary">{{ 'add_comment_button'|trans }}</a>
+            {% endif %}
+
+            {% if comments is not empty %}
+                <ul class="list-group mt-3">
+                    {% for comment in comments %}
+                        <li class="list-group-item">
+                            <strong>{{ comment.author.username }}</strong> ({{ comment.rating }}/5):
+                            <p>{{ comment.commentText }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="mt-3">{{ 'no_comments_for_game'|trans }}</p>
+            {% endif %}
+            <a href="{{ path('game_list') }}" class="btn btn-secondary mt-3">{{ 'back_to_games'|trans }}</a>
+        </div>
+    </div>
+{% endblock %}

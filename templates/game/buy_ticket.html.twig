@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h1>{{ 'buy_tickets_for'|trans({'%home%': game.teamHome, '%away%': game.teamAway}) }}</h1>
+        </div>
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_row(form.quantity) }}
+                <button class="btn btn-primary">{{ 'buy_tickets'|trans }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

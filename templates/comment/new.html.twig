@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'add_comment'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h1>{{ 'add_comment'|trans }}</h1>
+        </div>
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary">{{ 'submit_comment'|trans }}</button>
+            {{ form_end(form) }}
+            <a href="{{ path('comment_show', { gameId: game.id }) }}" class="btn btn-secondary mt-3">{{ 'back_to_comments'|trans }}</a>
+        </div>
+    </div>
+{% endblock %}
